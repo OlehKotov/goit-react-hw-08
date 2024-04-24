@@ -4,3 +4,10 @@
 .header {
     font-size: 32px;
 }
+.navClass {
+    display: flex;
+    gap: 15px;
+}
+.linkClass {
+    font-size: 32px;
+}
