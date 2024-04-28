@@ -1,13 +1,70 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-axios.defaults.baseURL = "https://connections-api.herokuapp.com/";
+export const instance = axios.create({
+  baseURL: "https://connections-api.herokuapp.com",
+});
+
+
+export const setToken = (token) => {
+  instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+};
+
+export const clearToken = () =>
+  (instance.defaults.headers.common.Authorization = "");
+
+
+
 
 export const register = createAsyncThunk(
   "auth/register",
+  async (formData, thunkAPI) => {
+    try {
+      const { data } = await instance.post("/users/signup", formData);
+      setToken(data.token);
+      return data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const login = createAsyncThunk(
+  "auth/login",
+  async (formData, thunkAPI) => {
+    try {
+      const { data } = await instance.post("/users/login", formData);
+      console.log("LOGIN data: ", data);
+      setToken(data.token);
+      return data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  "auth/logout",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.post("/contacts");
+      await instance.post("/users/logout");
+      clearToken();
+      return;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const refreshUser = createAsyncThunk(
+  "auth/refresh",
+  async (_, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+      const token = state.auth.token;
+
+      setToken(token);
+      const { data } = await instance.get("/users/current");
       return data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
@@ -15,26 +72,6 @@ export const register = createAsyncThunk(
   }
 );
 
-export const addContact = createAsyncThunk(
-  "contacts/addContact",
-  async ({ name, number }, thunkAPI) => {
-    try {
-      const { data } = await axios.post("/contacts", { name, number });
-      return data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  }
-);
 
-export const deleteContact = createAsyncThunk(
-  "contacts/deleteContact",
-  async (id, thunkAPI) => {
-    try {
-      const response = await axios.delete(`/contacts/${id}`);
-      return response.data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  }
-);
+
+

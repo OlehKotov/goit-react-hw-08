@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import css from "./ContactForm.module.css";
 import { FORM_INITIAL_VALUES } from "../../utils/constants";
-import { useId } from "react";
+// import { useId } from "react";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { addContact } from "../../redux/contacts/operations";
@@ -20,15 +20,15 @@ const ContactSchema = Yup.object().shape({
 const ContactForm = () => {
   const dispatch = useDispatch();
 
-  const nameFieldId = useId();
-  const numberFieldId = useId();
+  // const nameFieldId = useId();
+  // const numberFieldId = useId();
 
-  const onAddUser = (formData) => {
-    dispatch(addContact(formData));
-  };
+  // const onAddUser = (formData) => {
+  //   dispatch(addContact(formData));
+  // };
 
   const handleSubmit = (values, actions) => {
-    onAddUser(values);
+    dispatch(addContact(values));
     actions.resetForm();
   };
 
@@ -40,22 +40,24 @@ const ContactForm = () => {
     >
       <Form className={css.form}>
         <div className={css.formLabel}>
-          <label htmlFor={nameFieldId}>Name</label>
+          {/* <label htmlFor={nameFieldId}>Name</label> */}
+          <label>Name</label>
           <Field
             type="text"
             name="name"
-            id={nameFieldId}
+            // id={nameFieldId}
             className={css.formInput}
           />
           <ErrorMessage name="name" as="span" />
         </div>
 
         <div className={css.formLabel}>
-          <label htmlFor={numberFieldId}>Number</label>
+          {/* <label htmlFor={numberFieldId}>Number</label> */}
+          <label>Number</label>
           <Field
             type="phone"
             name="number"
-            id={numberFieldId}
+            // id={numberFieldId}
             className={css.formInput}
           />
           <ErrorMessage name="number" as="span" />

@@ -1,49 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { addContact, deleteContact, fetchContacts } from "../contacts/operations";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { addContact, deleteContact, getContacts } from "../contacts/operations";
 
 const initialState = {
   items: [],
-  loading: false,
-  error: null,
+  isLoading: false,
+  isError: null,
 };
 
-const handlePending = (state) => {
-  state.loading = true;
-  state.error = false;
-};
-const handleRejected = (state, action) => {
-  state.loading = false;
-  state.error = action.payload;
-};
 
 const contactsSlice = createSlice({
   name: "contacts",
   initialState: initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(fetchContacts.pending, handlePending)
-      .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-        state.items = action.payload;
-      })
-      .addCase(fetchContacts.rejected, handleRejected)
-      .addCase(addContact.pending, handlePending)
-      .addCase(addContact.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-        state.items.push(action.payload);
-      })
-      .addCase(addContact.rejected, handleRejected)
-      .addCase(deleteContact.pending, handlePending)
-      .addCase(deleteContact.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-        state.items = state.items.filter(
-          (contact) => contact.id !== action.payload.id
-        );
-      })
-      .addCase(deleteContact.rejected, handleRejected);
+    .addCase(getContacts.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.items = action.payload;
+    })
+    .addCase(addContact.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.items.push(action.payload);
+    })
+    .addCase(deleteContact.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.items = state.items.filter(
+        (contact) => contact.id !== action.payload.id
+      );
+    })
+    
+    .addMatcher(isAnyOf((getContacts.pending, addContact.pending, deleteContact.pending), (state) => {
+      state.isLoading = true;
+      state.isError = false;
+    }))
+    .addMatcher(isAnyOf((getContacts.rejected, addContact.rejected, deleteContact.rejected), (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    }))
   },
 });
 
