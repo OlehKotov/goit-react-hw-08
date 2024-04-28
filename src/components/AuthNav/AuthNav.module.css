@@ -1,0 +1,16 @@
+.link {
+    display: flex;
+    color: #000000;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  
+  .active {
+    color: orange;
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+  }

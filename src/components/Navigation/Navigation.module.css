@@ -1,0 +1,11 @@
+
+  .link {
+    display: flex;
+    color: #000000;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  
+  .active {
+    color: orange;
+  }

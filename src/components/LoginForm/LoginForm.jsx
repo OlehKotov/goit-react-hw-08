@@ -36,20 +36,20 @@ const LoginForm = () => {
     >
       <Form className={css.form}>
        
-        <div >
+        <div className={css.formLabel}>
           <label>Email</label>
-          <Field type="email" name="email" />
+          <Field type="email" name="email" className={css.formInput}/>
           <ErrorMessage name="email" as="span" />
         </div>
 
-        <div >
+        <div className={css.formLabel}>
           <label>Password</label>
-          <Field type="password" name="password" />
+          <Field type="password" name="password" className={css.formInput}/>
           <ErrorMessage name="password" as="span" />
         </div>
 
-        <div>
-          <button type="submit">
+        <div className={css.buttonContainer} >
+          <button type="submit" className={css.formButton}>
             Log In
           </button>
         </div>

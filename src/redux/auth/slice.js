@@ -28,8 +28,8 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = true;
-        state.user.name = action.payload.name;
-        state.user.email = action.payload.email;
+        state.user.name = action.payload.user.name;
+        state.user.email = action.payload.user.email;
         state.token = action.payload.token;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
@@ -42,30 +42,21 @@ const authSlice = createSlice({
         return initialState;
       })
       .addMatcher(
-        isAnyOf(
-          (register.pending,
-          login.pending,
-          refreshUser.pending,
-          logout.pending),
-          (state) => {
-            state.isLoading = true;
-            state.isError = false;
-          }
-        )
+        isAnyOf(register.pending, login.pending, refreshUser.pending, logout.pending),
+        (state) => {
+          state.isLoading = true;
+          state.isError = false;
+        }
       )
       .addMatcher(
-        isAnyOf(
-          (register.rejected,
-          login.rejected,
-          refreshUser.rejected,
-          logout.rejected),
-          (state) => {
-            state.isLoading = false;
-            state.isError = true;
-          }
-        )
+        isAnyOf(register.rejected, login.rejected, refreshUser.rejected, logout.rejected),
+        (state) => {
+          state.isLoading = false;
+          state.isError = true;
+        }
       );
   },
 });
 
 export const authReducer = authSlice.reducer;
+

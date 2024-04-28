@@ -40,26 +40,26 @@ const RegistrationForm = () => {
         validationSchema={registrationSchema}
       >
         <Form className={css.form}>
-          <div>
+          <div className={css.formLabel}>
             <label>Name</label>
-            <Field type="text" name="name" />
+            <Field type="text" name="name" className={css.formInput}/>
             <ErrorMessage name="name" as="span" />
           </div>
 
-          <div>
+          <div className={css.formLabel}>
             <label>Email</label>
-            <Field type="email" name="email" />
+            <Field type="email" name="email" className={css.formInput}/>
             <ErrorMessage name="email" as="span" />
           </div>
 
-          <div>
+          <div className={css.formLabel}>
             <label>Password</label>
-            <Field type="password" name="password" />
+            <Field type="password" name="password" className={css.formInput}/>
             <ErrorMessage name="password" as="span" />
           </div>
 
-          <div>
-            <button type="submit">Registration</button>
+          <div className={css.buttonContainer}>
+            <button type="submit" className={css.formButton}>Registration</button>
           </div>
         </Form>
       </Formik>

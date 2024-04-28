@@ -1,0 +1,35 @@
+.link {
+    display: flex;
+    color: #000000;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .active {
+    color: orange;
+  }
+  .container {
+    display: flex;
+    gap: 15px; 
+    align-items: center;
+  }
+  .textWrap {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .logoutBtn {
+    display: flex;
+    padding: 5px 18px;
+    border: none;
+    border-radius: 4px;
+    background-color: #2196f3;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .logoutBtn:hover,
+  .logoutBtn:focus {
+    background-color: #1976d2;
+  }

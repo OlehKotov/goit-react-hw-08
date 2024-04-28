@@ -20,13 +20,6 @@ const ContactSchema = Yup.object().shape({
 const ContactForm = () => {
   const dispatch = useDispatch();
 
-  // const nameFieldId = useId();
-  // const numberFieldId = useId();
-
-  // const onAddUser = (formData) => {
-  //   dispatch(addContact(formData));
-  // };
-
   const handleSubmit = (values, actions) => {
     dispatch(addContact(values));
     actions.resetForm();
@@ -40,24 +33,20 @@ const ContactForm = () => {
     >
       <Form className={css.form}>
         <div className={css.formLabel}>
-          {/* <label htmlFor={nameFieldId}>Name</label> */}
           <label>Name</label>
           <Field
             type="text"
             name="name"
-            // id={nameFieldId}
             className={css.formInput}
           />
           <ErrorMessage name="name" as="span" />
         </div>
 
         <div className={css.formLabel}>
-          {/* <label htmlFor={numberFieldId}>Number</label> */}
           <label>Number</label>
           <Field
             type="phone"
             name="number"
-            // id={numberFieldId}
             className={css.formInput}
           />
           <ErrorMessage name="number" as="span" />

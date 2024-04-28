@@ -3,6 +3,8 @@
     border-radius: 5px;
     padding: 15px 10px;
     width: 350px;
+    margin-top: 15px;
+    margin-left: 15px;
 }
 .formLabel {
     display: flex;

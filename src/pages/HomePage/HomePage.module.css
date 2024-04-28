@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+    background-color: #f0f0f0;
+  }
+  .heading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+  }
