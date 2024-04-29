@@ -3,9 +3,15 @@ import { changeFilter } from "../../redux/filters/slice";
 import css from "./SearchBox.module.css";
 import { selectStatusFilter } from "../../redux/filters/selectors";
 import { ThemeProvider } from "@emotion/react";
-import { Box, Container, CssBaseline, TextField, Typography, createTheme } from "@mui/material";
+import {
+  Box,
+  Container,
+  CssBaseline,
+  TextField,
+  Typography,
+  createTheme,
+} from "@mui/material";
 import { IoIosSearch } from "react-icons/io";
-
 
 const defaultTheme = createTheme();
 
@@ -18,10 +24,10 @@ const SearchBox = () => {
   };
 
   return (
-<ThemeProvider theme={defaultTheme}>
-<Container component="main" maxWidth="xs">
-<CssBaseline />
-<Box
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
           sx={{
             marginTop: 0,
             display: "flex",
@@ -30,40 +36,20 @@ const SearchBox = () => {
             alignItems: "center",
           }}
         >
-          <IoIosSearch className={css.searchIcon}/>
-          <Box
-            component="form"
-            noValidate
-            sx={{ mt: 1,
-            width: "400px",
-           }}
-          >
+          <IoIosSearch className={css.searchIcon} />
+          <Box component="form" noValidate sx={{ mt: 1, width: "400px" }}>
             <TextField
               margin="normal"
               required
               fullWidth
               type="text"
               value={selectNameFilter}
-        onChange={onChangeFilter}
+              onChange={onChangeFilter}
             />
           </Box>
         </Box>
-</Container>
-</ThemeProvider>
-
-
-
-
-
-    // <div className={css.search}>
-    //   <h3 className={css.searchHeader}>Find contacts by name</h3>
-    //   <input
-    //     className={css.searchInput}
-    //     type="text"
-    //     value={selectNameFilter}
-    //     onChange={onChangeFilter}
-    //   ></input>
-    // </div>
+      </Container>
+    </ThemeProvider>
   );
 };
 

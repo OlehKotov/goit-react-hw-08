@@ -1,7 +1,5 @@
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { instance } from "../auth/operations";
-
 
 export const getContacts = createAsyncThunk(
   "contacts/getAll",
@@ -15,7 +13,6 @@ export const getContacts = createAsyncThunk(
   }
 );
 
-
 export const addContact = createAsyncThunk(
   "contacts/addContact",
   async ({ name, number }, thunkAPI) => {
@@ -27,7 +24,6 @@ export const addContact = createAsyncThunk(
     }
   }
 );
-
 
 export const deleteContact = createAsyncThunk(
   "contacts/deleteContact",

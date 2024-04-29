@@ -5,16 +5,12 @@ export const instance = axios.create({
   baseURL: "https://connections-api.herokuapp.com",
 });
 
-
 export const setToken = (token) => {
   instance.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 export const clearToken = () =>
   (instance.defaults.headers.common.Authorization = "");
-
-
-
 
 export const register = createAsyncThunk(
   "auth/register",
@@ -43,18 +39,15 @@ export const login = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk(
-  "auth/logout",
-  async (_, thunkAPI) => {
-    try {
-      await instance.post("/users/logout");
-      clearToken();
-      return;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
+export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+  try {
+    await instance.post("/users/logout");
+    clearToken();
+    return;
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e.message);
   }
-);
+});
 
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
@@ -70,7 +63,3 @@ export const refreshUser = createAsyncThunk(
     }
   }
 );
-
-
-
-

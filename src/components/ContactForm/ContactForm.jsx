@@ -1,4 +1,3 @@
-
 import css from "./ContactForm.module.css";
 import { useDispatch } from "react-redux";
 import { addContact } from "../../redux/contacts/operations";
@@ -10,13 +9,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 const defaultTheme = createTheme();
-const notify = () => toast.success('Successfully created contact!');
+const notify = () => toast.success("Successfully created contact!");
 
 const ContactForm = () => {
-
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({ name: "", number: "" });
 
@@ -91,9 +89,7 @@ const ContactForm = () => {
         </Box>
       </Container>
     </ThemeProvider>
-
   );
 };
 
 export default ContactForm;
-

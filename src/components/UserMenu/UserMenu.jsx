@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUserName } from "../../redux/auth/selectors";
 import { logout } from "../../redux/auth/operations";
 import clsx from "clsx";
-import css from "./UserMenu.module.css"
-
+import css from "./UserMenu.module.css";
 
 const buildLinkClass = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
@@ -28,7 +27,6 @@ const UserMenu = () => {
           Logout
         </button>
       </div>
-      
     </div>
   );
 };
