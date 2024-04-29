@@ -4,7 +4,6 @@ header {
 .navClass {
     display: flex;
     align-items: center;
-    border-bottom: 1.5px solid black;
     font-size: 18px;
     padding: 10px 25px;
     justify-content: space-between;

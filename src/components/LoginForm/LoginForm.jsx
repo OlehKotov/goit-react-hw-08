@@ -1,60 +1,100 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import css from "./LoginForm.module.css";
-import * as Yup from "yup";
+
 import { login } from "../../redux/auth/operations";
 import { useDispatch } from "react-redux";
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from "react";
 
-const LoginSchema = Yup.object().shape({
-  
-  email: Yup.string()
-    .email("You must enter valid email address!")
-    .required("Email address is required!"),
-  password: Yup.string()
-    .min(4, "Too Short!")
-    .max(38, "Too Long!")
-    .required("Password is required!"),
-});
 
-const FORM_INITIAL_VALUES = {
-  email: "",
-  password: "",
-};
+const defaultTheme = createTheme();
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const [formData, setFormData] = useState({ email: "", password: "" }); 
 
-  const handleSubmit = (values, actions) => {
-    dispatch(login(values));
-    actions.resetForm();
+  const handleSubmit = (event) => {
+    event.preventDefault(); 
+    dispatch(login(formData)); 
+    setFormData({ email: "", password: "" }); 
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value }); 
   };
 
   return (
-    <Formik
-      initialValues={FORM_INITIAL_VALUES}
-      onSubmit={handleSubmit}
-      validationSchema={LoginSchema}
-    >
-      <Form className={css.form}>
-       
-        <div className={css.formLabel}>
-          <label>Email</label>
-          <Field type="email" name="email" className={css.formInput}/>
-          <ErrorMessage name="email" as="span" />
-        </div>
-
-        <div className={css.formLabel}>
-          <label>Password</label>
-          <Field type="password" name="password" className={css.formInput}/>
-          <ErrorMessage name="password" as="span" />
-        </div>
-
-        <div className={css.buttonContainer} >
-          <button type="submit" className={css.formButton}>
-            Log In
-          </button>
-        </div>
-      </Form>
-    </Formik>
+<ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              type="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              value={formData.email} // Привязываем значение из состояния
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={formData.password} // Привязываем значение из состояния
+              onChange={handleChange}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link href="/register" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>  
   );
 };
 

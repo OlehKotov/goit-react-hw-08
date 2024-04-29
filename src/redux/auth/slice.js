@@ -28,8 +28,8 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = true;
-        state.user.name = action.payload.user.name;
-        state.user.email = action.payload.user.email;
+        state.user.name = action.payload.name;
+        state.user.email = action.payload.email;
         state.token = action.payload.token;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
@@ -59,4 +59,3 @@ const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
-

@@ -1,68 +1,111 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import css from "./RegistrationForm.module.css";
-import * as Yup from "yup";
+
 import { useDispatch } from "react-redux";
 import { register } from "../../redux/auth/operations";
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const registrationSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, "Too Short!")
-    .max(38, "Too Long!")
-    .required("Name is required!"),
-  email: Yup.string()
-    .email("You must enter valid email address!")
-    .required("Email address is required!"),
-  password: Yup.string()
-    .min(4, "Too Short!")
-    .max(38, "Too Long!")
-    .required("Password is required!"),
-});
-
-const FORM_INITIAL_VALUES = {
-  name: "",
-  email: "",
-  password: "",
-};
 
 const RegistrationForm = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = (values, actions) => {
-    dispatch(register(values));
-    actions.resetForm();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const values = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password: formData.get("password")
+    };
+    dispatch(register(values)); 
+    event.target.reset(); 
   };
+
+  const defaultTheme = createTheme();
 
   return (
     <div>
-      <Formik
-        initialValues={FORM_INITIAL_VALUES}
-        onSubmit={handleSubmit}
-        validationSchema={registrationSchema}
-      >
-        <Form className={css.form}>
-          <div className={css.formLabel}>
-            <label>Name</label>
-            <Field type="text" name="name" className={css.formInput}/>
-            <ErrorMessage name="name" as="span" />
-          </div>
-
-          <div className={css.formLabel}>
-            <label>Email</label>
-            <Field type="email" name="email" className={css.formInput}/>
-            <ErrorMessage name="email" as="span" />
-          </div>
-
-          <div className={css.formLabel}>
-            <label>Password</label>
-            <Field type="password" name="password" className={css.formInput}/>
-            <ErrorMessage name="password" as="span" />
-          </div>
-
-          <div className={css.buttonContainer}>
-            <button type="submit" className={css.formButton}>Registration</button>
-          </div>
-        </Form>
-      </Formik>
+      <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="given-name"
+                  name="name"
+                  type="text"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/login" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
     </div>
   );
 };

@@ -11,10 +11,10 @@ const AuthNav = () => {
   return (
     <div className={css.container}>
       <NavLink to="/register" className={buildLinkClass}>
-        Register
+        Sign up
       </NavLink>
       <NavLink to="/login" className={buildLinkClass}>
-        Login
+        Sign in
       </NavLink>
     </div>
   );

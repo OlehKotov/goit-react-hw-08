@@ -34,6 +34,7 @@ export const login = createAsyncThunk(
   async (formData, thunkAPI) => {
     try {
       const { data } = await instance.post("/users/login", formData);
+      console.log(data);
       setToken(data.token);
       return data;
     } catch (e) {
@@ -61,7 +62,6 @@ export const refreshUser = createAsyncThunk(
     try {
       const state = thunkAPI.getState();
       const token = state.auth.token;
-
       setToken(token);
       const { data } = await instance.get("/users/current");
       return data;

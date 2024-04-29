@@ -1,65 +1,99 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+
 import css from "./ContactForm.module.css";
-import { FORM_INITIAL_VALUES } from "../../utils/constants";
-// import { useId } from "react";
-import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { addContact } from "../../redux/contacts/operations";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 
-const ContactSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(3, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  number: Yup.string()
-    .min(3, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-});
+const defaultTheme = createTheme();
+const notify = () => toast.success('Successfully created contact!');
 
 const ContactForm = () => {
-  const dispatch = useDispatch();
 
-  const handleSubmit = (values, actions) => {
-    dispatch(addContact(values));
-    actions.resetForm();
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({ name: "", number: "" });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(addContact(formData));
+    setFormData({ name: "", number: "" });
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
-    <Formik
-      initialValues={FORM_INITIAL_VALUES}
-      onSubmit={handleSubmit}
-      validationSchema={ContactSchema}
-    >
-      <Form className={css.form}>
-        <div className={css.formLabel}>
-          <label>Name</label>
-          <Field
-            type="text"
-            name="name"
-            className={css.formInput}
-          />
-          <ErrorMessage name="name" as="span" />
-        </div>
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Phonebook
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              type="text"
+              label="Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+              value={formData.name}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="number"
+              label="Number"
+              type="phone"
+              id="number"
+              autoComplete="number"
+              value={formData.number}
+              onChange={handleChange}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={notify}
+            >
+              Add contact
+            </Button>
+            <Toaster />
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
 
-        <div className={css.formLabel}>
-          <label>Number</label>
-          <Field
-            type="phone"
-            name="number"
-            className={css.formInput}
-          />
-          <ErrorMessage name="number" as="span" />
-        </div>
-
-        <div className={css.buttonContainer}>
-          <button type="submit" className={css.formButton}>
-            Add contact
-          </button>
-        </div>
-      </Form>
-    </Formik>
   );
 };
 
 export default ContactForm;
+

@@ -19,8 +19,7 @@ const ContactsPage = () => {
   }, [dispatch]);
 
   return (
-    <div>
-      <h1 className={css.contactHeader}>Phonebook</h1>
+    <div>  
       <ContactForm />
       <SearchBox />
       {isLoading && !isError && <b>Request in progress...</b>}
